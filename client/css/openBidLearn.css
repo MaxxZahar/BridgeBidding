@@ -5,3 +5,43 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+.button {
+    background-color: chocolate;
+    color: wheat;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 2em;
+}
+
+.hand {
+    display: flex;
+    gap: 1em;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 57 / 88;
+    color: white;
+    font-weight: bold;
+    width: 5vw;
+    font-size: 3rem;
+}
+
+.clubs {
+    background-color: green;
+}
+
+.diamonds {
+    background-color: blue;
+}
+
+.hearts {
+    background-color: red;
+}
+
+.spades {
+    background-color: black;
+}
