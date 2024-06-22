@@ -17,6 +17,8 @@
 .hand {
     display: flex;
     gap: 1em;
+    margin: 3em auto 0;
+    width: fit-content;
 }
 
 .card {
@@ -28,6 +30,40 @@
     font-weight: bold;
     width: 5vw;
     font-size: 3rem;
+}
+
+.bidding-box {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    column-gap: 0;
+    margin: 3em auto;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.bid {
+    width: 5vw;
+    text-align: center;
+    background-color: olivedrab;
+    color: burlywood;
+    font-weight: 700;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bid:hover {
+    opacity: 0.8;
 }
 
 .clubs {
