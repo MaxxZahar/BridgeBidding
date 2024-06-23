@@ -17,11 +17,13 @@ let currentBid;
 
 newHandButton.addEventListener('click', (e) => {
     e.preventDefault();
+    currentBid = undefined;
+    currentHand = undefined;
+    handC.classList.remove('vulnerable');
     getHand();
 });
 
 async function getHand() {
-    currentBid = undefined;
     fetch('openBidLearn/hand.json')
         .then(res => res.json())
         .then(hand => { displayHand(hand); currentHand = hand; })
@@ -49,6 +51,10 @@ function displayHand(hand) {
             default:
                 console.log('Something is wrong with card suits');
         }
+    }
+    const isVulnerable = Math.random() >= 0.5 ? true : false;
+    if (isVulnerable) {
+        handC.classList.add('vulnerable');
     }
 }
 
