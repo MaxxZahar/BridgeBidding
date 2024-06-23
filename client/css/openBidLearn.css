@@ -33,6 +33,22 @@
     margin: 3em auto 0;
     width: fit-content;
     padding: 1em;
+    position: relative;
+}
+
+.hand::after {
+    position: absolute;
+    content: attr(data-hcp);
+    background-color: var(--diamonds-color);
+    color: var(--main-color);
+    font-size: 2rem;
+    font-family: var(--ff);
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+    bottom: -5em;
 }
 
 .card {

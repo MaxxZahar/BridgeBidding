@@ -19,6 +19,7 @@ let currentBid;
 newHandButton.addEventListener('click', (e) => {
     e.preventDefault();
     handC.classList.remove('vulnerable');
+    console.log('New Hand');
     getHand();
 });
 
@@ -83,6 +84,7 @@ function displayHand(hand) {
     if (isVulnerable) {
         handC.classList.add('vulnerable');
     }
+    handC.dataset.hcp = countPoints(hand);
 }
 
 function createCards() {
@@ -135,4 +137,25 @@ function createBiddingBox() {
         bidC.textContent = bid;
         bidC.id = i;
     }
+}
+
+function countPoints(hand) {
+    let counter = 0;
+    for (const card of hand) {
+        switch (card.value) {
+            case 'J':
+                counter += 1;
+                break;
+            case 'Q':
+                counter += 2;
+                break;
+            case 'K':
+                counter += 3;
+                break;
+            case 'A':
+                counter += 4;
+                break;
+        }
+    }
+    return counter;
 }
