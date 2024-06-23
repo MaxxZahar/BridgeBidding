@@ -6,15 +6,28 @@
     box-sizing: border-box;
 }
 
+:root {
+    --main-color: burlywood;
+    --clubs-color: olivedrab;
+    --diamonds-color: rgb(96, 60, 197);
+    --hearts-color: crimson;
+    --spades-color: #333;
+    --ff: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
 .button {
-    background-color: chocolate;
-    color: wheat;
+    background-color: var(--spades-color);
+    color: var(--main-color);
     font-weight: bold;
     text-align: center;
     padding: 1em 2em;
+    font-family: var(--ff);
+    border: none;
+    cursor: pointer;
 }
 
 .hand {
+    outline: 0.25em solid var(--clubs-color);
     display: flex;
     gap: 1em;
     margin: 3em auto 0;
@@ -27,10 +40,11 @@
     justify-content: center;
     align-items: center;
     aspect-ratio: 57 / 88;
-    color: white;
+    color: var(--main-color);
     font-weight: bold;
     width: 5vw;
     font-size: 3rem;
+    font-family: var(--ff);
 }
 
 .bidding-box {
@@ -52,15 +66,16 @@
 .bid {
     width: 5vw;
     text-align: center;
-    background-color: olivedrab;
-    color: burlywood;
+    background-color: var(--clubs-color);
+    color: var(--main-color);
     font-weight: 700;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: var(--ff);
     font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.10em 0;
 }
 
 .bid:hover {
@@ -68,21 +83,29 @@
 }
 
 .clubs {
-    background-color: green;
+    background-color: var(--clubs-color);
 }
 
 .diamonds {
-    background-color: blue;
+    background-color: var(--diamonds-color);
 }
 
 .hearts {
-    background-color: red;
+    background-color: var(--hearts-color);
 }
 
 .spades {
-    background-color: black;
+    background-color: var(--spades-color);
 }
 
 .vulnerable {
-    background-color: palevioletred;
+    outline-color: var(--hearts-color);
+}
+
+.screen {
+    cursor: auto;
+}
+
+.bid:nth-child(36) {
+    grid-column: 2 / 3;
 }
