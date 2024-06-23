@@ -3,10 +3,28 @@ const fs = require('fs');
 const Deck = require('./deck');
 
 const server = http.createServer((req, res) => {
-    if (req.url === '/openBidLearn') {
+    console.log(req.url);
+    console.log(req.body);
+    if (req.url === '/openBidLearn' && req.method === 'GET') {
+        console.log('GET request');
         res.writeHead(200, { 'Content-Type': 'text/html' });
         fs.createReadStream('../client/html/openBidLearn.html').pipe(res);
-    } else if (req.url === '/css/openBidLearn.css') {
+    } else if (req.url === '/sendData') {
+        let body = [];
+        req.on('data', chunk => {
+            body.push(chunk);
+        });
+        req.on('end', () => {
+            const data = JSON.parse(Buffer.concat(body).toString()).join(';') + '\r\n';
+            res.statusCode = 201;
+            console.log(data);
+            const wStream = fs.createWriteStream('./data/openingBidData.csv', { flags: 'a' });
+            wStream.write(data);
+            wStream.end();
+        });
+        console.log('POST request');
+    }
+    else if (req.url === '/css/openBidLearn.css') {
         res.writeHead(200, { 'Content-Type': 'text/css' });
         fs.createReadStream('../client/css/openBidLearn.css').pipe(res);
     } else if (req.url === '/js/openBidLearn.js') {

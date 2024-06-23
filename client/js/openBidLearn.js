@@ -2,6 +2,7 @@ const newHandButton = document.querySelector('.new-hand-button');
 const handC = document.querySelector('.hand');
 const biddingBox = document.querySelector('.bidding-box');
 const screen = document.querySelector('.screen');
+const saveButton = document.querySelector('.save-button');
 
 createBiddingBox();
 
@@ -17,10 +18,36 @@ let currentBid;
 
 newHandButton.addEventListener('click', (e) => {
     e.preventDefault();
-    currentBid = undefined;
-    currentHand = undefined;
     handC.classList.remove('vulnerable');
     getHand();
+});
+
+saveButton.addEventListener('click', (e) => {
+    if (!currentHand || !currentBid || currentBid === "Bid") return;
+    e.preventDefault();
+    const hand = Array(52).fill(0);
+    for (const card of currentHand) {
+        hand[card.id] = 1;
+    }
+    if (handC.classList.contains('vulnerable')) {
+        hand.push(1);
+    } else {
+        hand.push(0);
+    }
+    hand.push(currentBid);
+    const jsonHand = JSON.stringify(hand);
+    console.log((jsonHand));
+    fetch('sendData', {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: jsonHand
+    }).then(data => console.log(data)).catch(err => console.log(err));
+    currentBid = undefined;
+    currentHand = undefined;
+    screen.textContent = 'Bid';
 });
 
 async function getHand() {
