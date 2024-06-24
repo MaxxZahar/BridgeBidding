@@ -7,7 +7,7 @@
 }
 
 :root {
-    --main-color: burlywood;
+    --main-color: wheat;
     --clubs-color: olivedrab;
     --diamonds-color: rgb(96, 60, 197);
     --hearts-color: crimson;
@@ -24,6 +24,9 @@
     font-family: var(--ff);
     border: none;
     cursor: pointer;
+    letter-spacing: 0.25ch;
+    word-spacing: 0.4ch;
+    font-size: 1.25rem;
 }
 
 .hand {
@@ -120,6 +123,7 @@
 
 .screen {
     cursor: auto;
+    letter-spacing: 0.25ch;
 }
 
 .bid:nth-child(36) {
