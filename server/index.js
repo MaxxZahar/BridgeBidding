@@ -14,12 +14,12 @@ const server = http.createServer((req, res) => {
         });
         req.on('end', () => {
             const data = JSON.parse(Buffer.concat(body).toString()).join(';') + '\r\n';
-            res.statusCode = 201;
             console.log(data);
             const wStream = fs.createWriteStream('./data/openingBidData.csv', { flags: 'a' });
             wStream.write(data);
             wStream.end();
-            // res.end();
+            res.writeHead(201);
+            res.end();
         });
         console.log('POST request');
     }
