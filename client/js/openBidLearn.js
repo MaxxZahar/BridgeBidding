@@ -4,6 +4,10 @@ const biddingBox = document.querySelector('.bidding-box');
 const screen = document.querySelector('.screen');
 const saveButton = document.querySelector('.save-button');
 
+let currentHand;
+let currentBid;
+getHand();
+
 createBiddingBox();
 
 biddingBox.addEventListener('click', (e) => {
@@ -12,9 +16,6 @@ biddingBox.addEventListener('click', (e) => {
         currentBid = e.target.id;
     }
 });
-
-let currentHand;
-let currentBid;
 
 newHandButton.addEventListener('click', (e) => {
     e.preventDefault();
