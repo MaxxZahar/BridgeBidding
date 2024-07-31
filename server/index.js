@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const Deck = require('./deck');
+const utils = require('./utils/countHandParams');
 
 const server = http.createServer((req, res) => {
     if (req.url === '/openBidLearn' && req.method === 'GET') {
@@ -35,6 +36,19 @@ const server = http.createServer((req, res) => {
         const deck = new Deck();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(deck.getSinglePlayerCards()));
+    } else if (req.url === '/openBidLearn/data') {
+        console.log('Data requested');
+        fs.readFile('./data/openingBidData.csv', { encoding: 'utf-8' }, function (err, data) {
+            if (err) console.log(err.message);
+            const deals = data.split('\r\n');
+            console.log(deals[0]);
+            console.log(utils.countForm(deals[0].split(';')));
+            console.log(utils.countHCP(deals[0].split(';')));
+            console.log(utils.getBid(deals[0].split(';')));
+            console.log(utils.getVulnerability(deals[0].split(';')));
+        });
+
+
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Page does not exist');
