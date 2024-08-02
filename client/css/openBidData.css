@@ -1,0 +1,50 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-color: wheat;
+    --clubs-color: olivedrab;
+    --diamonds-color: rgb(96, 60, 197);
+    --hearts-color: crimson;
+    --spades-color: #333;
+}
+
+.clubs {
+    background-color: var(--clubs-color);
+}
+
+.diamonds {
+    background-color: var(--diamonds-color);
+}
+
+.hearts {
+    background-color: var(--hearts-color);
+}
+
+.spades {
+    background-color: var(--spades-color);
+}
+
+.openbid_table {
+    border: 5px solid orange;
+    width: fit-content;
+    margin: 5vmax auto 0;
+}
+
+caption {
+    font-size: 2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 1vmin;
+}
+
+th,
+td {
+    font-size: 1.3rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 5px 2ch;
+}

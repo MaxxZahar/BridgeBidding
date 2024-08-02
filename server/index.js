@@ -45,39 +45,38 @@ const server = http.createServer((req, res) => {
         const parsed = url.parse(req.url);
         const query = querystring.parse(parsed.query);
         const { page } = query;
-        const pageNumber = Number(page);
+        let pageNumber = Number(page);
         console.log(pageNumber);
         if (isNaN(pageNumber) || pageNumber < 1) {
-            funcs.pageDoesNotExist(res);
-            console.log('PAGE DOES NOT EXIST');
-        } else {
-            fs.readFile('./data/openingBidData.csv', { encoding: 'utf-8' }, function (err, data) {
-                if (err) console.log(err.message);
-                const deals = data.split('\r\n');
-                const totalPages = Math.ceil(deals.length / PAGE_OPTIONS.DEALS_PER_PAGE);
-                if (pageNumber > totalPages) {
-                    funcs.pageDoesNotExist(res);
-                    console.log('PAGE DOES NOT EXIST');
-                } else {
-                    const startIndex = PAGE_OPTIONS.DEALS_PER_PAGE * (pageNumber - 1);
-                    const lastIndex = startIndex + PAGE_OPTIONS.DEALS_PER_PAGE;
-                    let cut = deals.slice(startIndex, lastIndex);
-                    cut = cut.map(function (deal, i) {
-                        deal = deal.split(';');
-                        const dealObject = {
-                            id: startIndex + i + 1,
-                            hcp: utils.countHCP(deal),
-                            form: utils.countForm(deal),
-                            vulnerability: utils.getVulnerability(deal),
-                            bid: utils.getBid(deal)
-                        }
-                        return dealObject;
-                    })
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(cut));
-                }
-            });
+            pageNumber = 1;
         }
+        fs.readFile('./data/openingBidData.csv', { encoding: 'utf-8' }, function (err, data) {
+            if (err) console.log(err.message);
+            const deals = data.split('\r\n');
+            const totalPages = Math.ceil(deals.length / PAGE_OPTIONS.DEALS_PER_PAGE);
+            if (pageNumber > totalPages) {
+                funcs.pageDoesNotExist(res);
+                console.log('PAGE DOES NOT EXIST');
+            } else {
+                const startIndex = PAGE_OPTIONS.DEALS_PER_PAGE * (pageNumber - 1);
+                const lastIndex = startIndex + PAGE_OPTIONS.DEALS_PER_PAGE;
+                let cut = deals.slice(startIndex, lastIndex);
+                cut = cut.map(function (deal, i) {
+                    deal = deal.split(';');
+                    const dealObject = {
+                        page: pageNumber,
+                        id: startIndex + i + 1,
+                        hcp: utils.countHCP(deal),
+                        form: utils.countForm(deal),
+                        vulnerability: utils.getVulnerability(deal),
+                        bid: utils.getBid(deal)
+                    }
+                    return dealObject;
+                })
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(cut));
+            }
+        });
     } else {
         funcs.pageDoesNotExist(res);
     }
