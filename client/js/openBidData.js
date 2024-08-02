@@ -2,28 +2,29 @@ const table = document.querySelector('.openbid_table');
 const body = table.querySelector('tbody');
 const caption = table.querySelector('caption');
 
-const testDeal = {
-    page: 1,
-    id: 1,
-    hcp: 12,
-    form: [4, 3, 3, 3],
-    vulnerability: 'NOT VULNERABLE',
-    bid: '1C'
-}
+let pageNumber = table.dataset.pagenumber || 1;
+// const testDeal = {
+//     page: 1,
+//     id: 1,
+//     hcp: 12,
+//     form: [4, 3, 3, 3],
+//     vulnerability: 'NOT VULNERABLE',
+//     bid: '1C'
+// }
 
-const testDeal2 = {
-    page: 1,
-    id: 1,
-    hcp: 12,
-    form: [4, 3, 3, 3],
-    vulnerability: 'NOT VULNERABLE',
-    bid: '1C'
-}
+// const testDeal2 = {
+//     page: 1,
+//     id: 1,
+//     hcp: 12,
+//     form: [4, 3, 3, 3],
+//     vulnerability: 'NOT VULNERABLE',
+//     bid: '1C'
+// }
 
-const testDeals = [testDeal, testDeal2];
+// const testDeals = [testDeal, testDeal2];
 
-function fillCaption(deals) {
-    caption.textContent = `Page ${deals[0].page}`;
+function fillCaption(pageNumber) {
+    caption.textContent = `Page ${pageNumber}`;
 }
 
 function createDealRecord(deal) {
@@ -39,10 +40,15 @@ function createDealRecord(deal) {
 }
 
 function createDealPage(deals) {
-    fillCaption(deals);
+    pageNumber = deals[0].page || 1;
+    fillCaption(pageNumber);
     for (const deal of deals) {
         createDealRecord(deal);
     }
 }
 
-createDealPage(testDeals);
+fetch(`/openBidLearn/data/deals.json/?page=${pageNumber}`)
+    .then(res => res.json())
+    .then(deals => createDealPage(deals))
+    .catch(err => console.log(err));
+

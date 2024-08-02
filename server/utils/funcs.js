@@ -10,7 +10,8 @@ function pageDoesNotExist(res) {
 async function getPageData(pageNumber, res) {
     fs.readFile('./data/openingBidData.csv', { encoding: 'utf-8' }, function (err, data) {
         if (err) console.log(err.message);
-        const deals = data.split('\r\n');
+        let deals = data.split('\r\n');
+        deals = deals.slice(0, deals.length - 1);
         const totalPages = Math.ceil(deals.length / PAGE_OPTIONS.DEALS_PER_PAGE);
         if (pageNumber > totalPages) {
             pageNumber = totalPages;

@@ -6,6 +6,7 @@ const Deck = require('./deck');
 const funcs = require('./utils/funcs');
 
 const server = http.createServer((req, res) => {
+    console.log(req.url);
     if (req.url === '/openBidLearn' && req.method === 'GET') {
         console.log('GET request');
         res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -38,6 +39,16 @@ const server = http.createServer((req, res) => {
         const deck = new Deck();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(deck.getSinglePlayerCards()));
+    } else if (req.url.includes('/openBidLearn/data/deals.json')) {
+        const parsed = url.parse(req.url);
+        const query = querystring.parse(parsed.query);
+        const { page } = query;
+        let pageNumber = Number(page);
+        console.log(pageNumber);
+        if (isNaN(pageNumber) || pageNumber < 1) {
+            pageNumber = 1;
+        }
+        funcs.getPageData(pageNumber, res);
     } else if (req.url.includes('/openBidLearn/data/')) {
         console.log('Data requested');
         const parsed = url.parse(req.url);
@@ -48,8 +59,19 @@ const server = http.createServer((req, res) => {
         if (isNaN(pageNumber) || pageNumber < 1) {
             pageNumber = 1;
         }
-        funcs.getPageData(pageNumber, res);
-    } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        let html = fs.readFileSync('../client/html/openBidData.html', { encoding: 'utf-8' });
+        html = html.replace('{{}}', pageNumber);
+        res.end(html);
+        // funcs.getPageData(pageNumber, res);
+    } else if (req.url === '/openBidLearn/css/openBidData.css') {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        fs.createReadStream('../client/css/openBidData.css').pipe(res);
+    } else if (req.url === '/openBidLearn/js/openBidData.js') {
+        res.writeHead(200, { 'Content-Type': 'text/javascript' });
+        fs.createReadStream('../client/js/openBidData.js').pipe(res);
+    }
+    else {
         funcs.pageDoesNotExist(res);
     }
 });
