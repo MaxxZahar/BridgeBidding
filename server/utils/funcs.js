@@ -13,27 +13,26 @@ async function getPageData(pageNumber, res) {
         const deals = data.split('\r\n');
         const totalPages = Math.ceil(deals.length / PAGE_OPTIONS.DEALS_PER_PAGE);
         if (pageNumber > totalPages) {
-            funcs.pageDoesNotExist(res);
-            console.log('PAGE DOES NOT EXIST');
-        } else {
-            const startIndex = PAGE_OPTIONS.DEALS_PER_PAGE * (pageNumber - 1);
-            const lastIndex = startIndex + PAGE_OPTIONS.DEALS_PER_PAGE;
-            let cut = deals.slice(startIndex, lastIndex);
-            cut = cut.map(function (deal, i) {
-                deal = deal.split(';');
-                const dealObject = {
-                    page: pageNumber,
-                    id: startIndex + i + 1,
-                    hcp: utils.countHCP(deal),
-                    form: utils.countForm(deal),
-                    vulnerability: utils.getVulnerability(deal),
-                    bid: utils.getBid(deal)
-                }
-                return dealObject;
-            })
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(cut));
+            pageNumber = totalPages;
         }
+        const startIndex = PAGE_OPTIONS.DEALS_PER_PAGE * (pageNumber - 1);
+        const lastIndex = startIndex + PAGE_OPTIONS.DEALS_PER_PAGE;
+        let cut = deals.slice(startIndex, lastIndex);
+        cut = cut.map(function (deal, i) {
+            deal = deal.split(';');
+            const dealObject = {
+                page: pageNumber,
+                id: startIndex + i + 1,
+                hcp: utils.countHCP(deal),
+                form: utils.countForm(deal),
+                vulnerability: utils.getVulnerability(deal),
+                bid: utils.getBid(deal)
+            }
+            return dealObject;
+        })
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(cut));
+
     });
 }
 
