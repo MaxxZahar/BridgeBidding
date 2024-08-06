@@ -1,6 +1,8 @@
 const table = document.querySelector('.openbid_table');
 const body = table.querySelector('tbody');
 const caption = table.querySelector('caption');
+const previousLink = document.querySelector('.previous');
+const nextLink = document.querySelector('.next');
 
 let pageNumber = table.dataset.pagenumber || 1;
 
@@ -26,6 +28,8 @@ function createDealPage(deals) {
     for (const deal of deals) {
         createDealRecord(deal);
     }
+    previousLink.setAttribute('href', `/openBidLearn/data/?page=${pageNumber - 1}`);
+    nextLink.setAttribute('href', `/openBidLearn/data/?page=${pageNumber + 1}`);
 }
 
 fetch(`/openBidLearn/data/deals.json/?page=${pageNumber}`)
