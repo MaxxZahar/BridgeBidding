@@ -39,4 +39,16 @@ const BIDDING_DICTIONARY = {
     '37': 'XX',
 }
 
-module.exports = { BIDDING_DICTIONARY };
+const values = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
+const suits = ['\u2663', '\u2666', '\u2665', '\u2660'];
+
+const CARDS_DICTIONARY = {}
+
+for (let i = 0; i < suits.length; i++) {
+    for (let j = 0; j < values.length; j++) {
+        const card = { suit: suits[i], value: values[j] }
+        CARDS_DICTIONARY[i * values.length + j] = card;
+    }
+}
+
+module.exports = { BIDDING_DICTIONARY, CARDS_DICTIONARY };

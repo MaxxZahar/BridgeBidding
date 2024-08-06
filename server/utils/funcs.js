@@ -1,6 +1,7 @@
 const fs = require('fs');
 const utils = require('./countHandParams');
 const PAGE_OPTIONS = require('../options/options');
+const CARDS_DICTIONARY = require('./consts').CARDS_DICTIONARY;
 
 function pageDoesNotExist(res) {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -27,7 +28,8 @@ async function getPageData(pageNumber, res) {
                 hcp: utils.countHCP(deal),
                 form: utils.countForm(deal),
                 vulnerability: utils.getVulnerability(deal),
-                bid: utils.getBid(deal)
+                bid: utils.getBid(deal),
+                cards: displayHand(getCardsArray(deal))
             }
             return dealObject;
         })
@@ -35,6 +37,24 @@ async function getPageData(pageNumber, res) {
         res.end(JSON.stringify(cut));
 
     });
+}
+
+function getCardsArray(deal) {
+    const result = []
+    for (let i = 0; i < 52; i++) {
+        if (deal[i] == 1) {
+            result.push(i);
+        }
+    }
+    return result;
+}
+
+function displayHand(hand) {
+    let str = ''
+    for (const card of hand) {
+        str += CARDS_DICTIONARY[card].value + CARDS_DICTIONARY[card].suit;
+    }
+    return str;
 }
 
 module.exports = { pageDoesNotExist, getPageData };
