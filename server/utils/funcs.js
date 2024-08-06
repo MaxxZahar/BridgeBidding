@@ -51,8 +51,14 @@ function getCardsArray(deal) {
 
 function displayHand(hand) {
     let str = ''
+    let currentSuit;
     for (const card of hand) {
-        str += CARDS_DICTIONARY[card].value + CARDS_DICTIONARY[card].suit;
+        if (CARDS_DICTIONARY[card].suit !== currentSuit) {
+            str += ' ' + CARDS_DICTIONARY[card].suit + CARDS_DICTIONARY[card].value;
+            currentSuit = CARDS_DICTIONARY[card].suit;
+        } else {
+            str += CARDS_DICTIONARY[card].value;
+        }
     }
     return str;
 }
