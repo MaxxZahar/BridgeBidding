@@ -4,6 +4,7 @@ const url = require('url');
 const querystring = require('querystring');
 const Deck = require('./deck');
 const funcs = require('./utils/funcs');
+const dp = require('./utils/dataProcessing');
 
 const server = http.createServer((req, res) => {
     console.log(req.url);
@@ -49,7 +50,18 @@ const server = http.createServer((req, res) => {
             pageNumber = 1;
         }
         funcs.getPageData(pageNumber, res);
+    } else if (req.url === '/openBidLearn/data/barchart') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        fs.createReadStream('../client/html/openBidBarChart.html').pipe(res);
+    } else if (req.url === '/openBidLearn/data/openBidBarChart.js') {
+        res.writeHead(200, { 'Content-Type': 'text/javascript' });
+        fs.createReadStream('../client/js/openBidBarChart.js').pipe(res);
+    } else if (req.url === '/openBidLearn/data/openBidFrequency.csv') {
+        dp.createFrequencyCSV();
+        res.writeHead(200, { 'Content-Type': 'text/csv' });
+        fs.createReadStream('./data/openBidFrequency.csv').pipe(res);
     } else if (req.url.includes('/openBidLearn/data/')) {
+        console.log(`In request url ${req.url}`);
         console.log('Data requested');
         const parsed = url.parse(req.url);
         const query = querystring.parse(parsed.query);

@@ -13,9 +13,9 @@ function createFrequencyCSV() {
     for (const record of data) {
         frequencies[record[record.length - 1]] = frequencies[record[record.length - 1]] + 1 || 1;
     }
-    let frequencyData = '';
+    let frequencyData = 'Bid,Value\r\n';
     for (const key of Object.keys(frequencies)) {
-        frequencyData += `${key};${frequencies[key]}\r\n`;
+        frequencyData += `${key},${frequencies[key]}\r\n`;
     }
     fs.writeFileSync('./data/openBidFrequency.csv', frequencyData);
 }
