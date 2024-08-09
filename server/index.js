@@ -8,7 +8,14 @@ const dp = require('./utils/dataProcessing');
 
 const server = http.createServer((req, res) => {
     console.log(req.url);
-    if (req.url === '/openBidLearn' && req.method === 'GET') {
+    if (req.url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        fs.createReadStream('../client/html/index.html').pipe(res);
+    } else if (req.url === '/style.css') {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        fs.createReadStream('../client/css/style.css').pipe(res);
+    }
+    else if (req.url === '/openBidLearn' && req.method === 'GET') {
         console.log('GET request');
         res.writeHead(200, { 'Content-Type': 'text/html' });
         fs.createReadStream('../client/html/openBidLearn.html').pipe(res);
