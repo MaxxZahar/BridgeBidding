@@ -82,6 +82,11 @@
     margin: 0 auto;
 }
 
+.buttons a {
+    color: var(--main-color);
+    text-decoration: none;
+}
+
 .bid {
     width: 5vw;
     text-align: center;
