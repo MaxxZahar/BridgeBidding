@@ -29,7 +29,8 @@ async function getPageData(pageNumber, res) {
                 form: utils.countForm(deal),
                 vulnerability: utils.getVulnerability(deal),
                 bid: utils.getBid(deal),
-                cards: displayHand(getCardsArray(deal))
+                cards: displayHand(getCardsArray(deal)),
+                totalPages: totalPages
             }
             return dealObject;
         })
